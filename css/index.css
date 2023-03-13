@@ -1,0 +1,63 @@
+body
+{
+     margin: 0;
+}
+
+.Header
+{
+     background-color: red;
+     justify-content: center;
+     text-align: center;
+     width: auto;
+     height: 100px;
+     margin: 0;
+
+}
+
+.Div-Titulo
+{
+     padding-left: 33%;
+     padding-top: 35px;
+     padding-right: 33%;
+}
+
+.Titulo_Pagina
+{
+     margin : 0px;
+     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+     padding-top: 10px;
+
+}
+
+.Seccion-Principal
+{
+     display: flex;
+     justify-content: center;
+}
+
+
+.Div-Formulario
+{
+     padding-top: 50px;
+     padding-right: 15%;
+     padding-left: 15%;
+}
+
+#Fecha{
+     margin-bottom: 15px;
+}
+
+.Formulario{
+     margin:10px
+}
+
+.Div-Imagen
+{
+     padding-left: 15%;
+     padding-right: 15%;
+}
+
+#inventado
+{
+
+}
