@@ -1,11 +1,42 @@
 <!DOCTYPE html>
-<head>
-<meta lang="es">
-<title>Practica1.2 LRSS</title>
-</head>
+    <head>
+        <title>Practica1.2 LRSS</title>
+        <link href="/css/index.css" rel="stylesheet" type="text/css">    
+    </head>
 
 <body>
-<h1>PRUEBA HOLA</h1>
+    <nav>
+        <div class="Header">
+            <div class="Div-Titulo">
+                <h1 class="Titulo_Pagina"> HOLA PRUEBA</h1>
+            </div>
+        </div>
+    </nav>
+    <section class="Seccion-Principal">
+        <div class="Div-Formulario">
+            <h2 class="Titulo-Formulario">Complete su Solicitud</h2>
+            <div class="Formulario">
+                <form action="/index2.html" method="POST">
+                    <p>DNI:</p>
+                    <input type="text" id="DNI" name="DNI", minlength="1" maxlength="10">
+                    <p>Nombre:</p>
+                    <input type="text" id="Nombre" name="Nombre" minlength="4" maxlength="20">
+                    <p>Apellidos:</p>
+                    <input type="text" id="Apellidos" name="Apellidos" minlength="0" maxlength="20">
+                    <p>Fecha:</p>
+                    <input type="date" id="Fecha" name="fecha">
+                    <br>
+                    <input type="submit" id="enviar" name="enviar" value="Enviar Solicitud" >
+                </form>
+            </div>
+        </div>
+        <div class="Div-Imagen">
+            <h1>Hola</h1>
+            <img src="data:image/jpeg;base64,{0}">
+        </div>
+
+    </section>
+
 
 </body>
 
