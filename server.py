@@ -106,15 +106,15 @@ while entradas != -1:
                     response_css = file.read()
                     file.close()
 
-                    file = open("img/redes.jpg", 'rb')
+                    file = open("img/redes.png", 'rb')
                     imagen_bytes = file.read()
+                    img_data = base64.b64encode(imagen_bytes).decode("utf-8")
                     file.close()
                     
-                    data_uri = "data:image/jpeg;base64," + base64.b64encode(imagen_bytes).decode("ascii")
-
+                
                     ruta_archivo_html = "index.html"
                     ruta_archivo_css = "css/index.css"
-                    ruta_img = "img/redes.jpg"
+                    ruta_img = "img/redes.png"
                     tamaño_html = os.path.getsize(ruta_archivo_html)
                     tamaño_css = os.path.getsize(ruta_archivo_css)
                     tamaño_img = os.path.getsize(ruta_img)
@@ -127,6 +127,12 @@ while entradas != -1:
                     elif(archivo_pedido.endswith('.html')):
                         mimetype = 'text/html'
 
+                    elif(archivo_pedido.endswith('.css')):
+                        mimetype = 'text/css'
+
+                    elif(archivo_pedido.endswith('.png')):
+                        mimetype = 'image/png'
+
 
                     if cabecera.startswith('GET'):
                         fecha_hora = datetime.datetime.now()
@@ -135,9 +141,9 @@ while entradas != -1:
                         Tipo_Conexion = "keep-alive"
                         cabecera_1 = 'HTTP/1.1 200 OK\r\nDate: '+ fecha_bytes + '\r\nConnection: ' + Tipo_Conexion + '\r\nServidor:' + plataforma + '\r\nContent-type: ' + mimetype + '\r\nContent-length:' + tamaño_total + '\r\n\n{}'.format(response + '<style>' + response_css + '</style>')
                         print(cabecera_1)
-                        respuesta = cabecera_1.encode("utf-8") 
-                        print(respuesta)
+                        respuesta = cabecera_1.encode("utf-8")
                         s.sendall(respuesta)
+                        s.sendall(img_data)
                         entradas.pop()
                         s.close()
                         break
