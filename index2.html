@@ -2,18 +2,6 @@
     <head>
         <title>Practica1.2 LRSS</title>
         <link href="/css/index.css">
-        <style>
-            body{
-                margin: 0;
-            }
-            
-            .Header{
-                width: auto;
-                height: 100px;
-                background-color: red;
-            }
-
-        </style>
     </head>
 
     <body>
@@ -22,7 +10,9 @@
             <h1 class="Titulo_Pagina"> HOLA PRUEBA</h1>
         </div>
         <div class="Formulario">
-            <form action="/index2.html" method="get">
+            <form action="/index2.html" method="POST">
+                <p>DNI:</p>
+                <input type="text" id="DNI" name="DNI" minlength="4" maxlength="20">
                 <p>Nombre:</p>
                 <input type="text" id="Nombre" name="Nombre" minlength="4" maxlength="20">
                 <p>Apellidos:</p>

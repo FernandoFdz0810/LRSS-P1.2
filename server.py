@@ -13,11 +13,11 @@ import base64
 
 #Conexion con Base de datos
 
-Conexion = pymysql.connect(host='localhost', user='fernando', passwd='Fernando0810_', db='LRSS2')
-cur = Conexion.cursor()
+Conexion_SQL = pymysql.connect(host='localhost', user='fernando', passwd='Fernando0810_', db='LRSS2')
+cur = Conexion_SQL.cursor()
 
 # Establecer el host y el puerto del servidor
-server_address = ('192.168.2.3', 8080)
+server_address = ('192.168.189.64', 8080)
 
 # Crear un objeto socket
 try:
@@ -32,7 +32,7 @@ socketserv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 try:
     socketserv.bind(server_address)
 except Exception as e:
-    print("Error en la asociación del socket: ". e)
+    print("Error en la asociación del socket: ", e)
 
 # Escuchar por conexiones entrantes
 socketserv.listen(5)
@@ -46,8 +46,10 @@ cola_mensajes = {} # Buffer de salida para conexiones de salida
 
 
 while entradas != -1:
-    print('Esperando por conexiones...\n')
-    readable, writable, exceptional = select.select(entradas, salidas, entradas)
+    print('Esperando peticiones entrantes...\n')
+    readable, writable, exceptional = select.select(entradas, salidas, entradas, 10)
+    if len(readable) == 0:
+        print("Servidor desconectado debido a temporizador 'timeout'")
 
     for s in readable:
         if s is socketserv:
@@ -77,7 +79,8 @@ while entradas != -1:
                 # Si no hay datos entrantes, significa que el cliente cerro la conexión.
                 print('Conexión cerrada por {}:{}\n'.format(*client_address))
 
-                entradas.remove(s)
+                entradas.pop()
+                s.close()
             
             else:
                 # Convertir los datos de entrada en una solicitud HTTP.
@@ -104,9 +107,10 @@ while entradas != -1:
                     file.close()
 
                     file = open("img/redes.jpg", 'rb')
-                    response_img = base64.b64encode(file.read()).decode('utf-8')
+                    imagen_bytes = file.read()
                     file.close()
-
+                    
+                    data_uri = "data:image/jpeg;base64," + base64.b64encode(imagen_bytes).decode("ascii")
 
                     ruta_archivo_html = "index.html"
                     ruta_archivo_css = "css/index.css"
@@ -128,12 +132,15 @@ while entradas != -1:
                         fecha_hora = datetime.datetime.now()
                         fecha_bytes = fecha_hora.strftime("%Y-%m-%d %H:%M:%S.%f")
                         plataforma = platform.system()
-                        cabecera_1 = 'HTTP/1.1 200 OK\r\nDate: '+ fecha_bytes + '\r\nServidor:' + plataforma + '\r\nContent-type: ' + mimetype + '\r\nContent-length:' + tamaño_total + '\r\n\n{}'.format(response + '<style>' + response_css + '</style>')
+                        Tipo_Conexion = "keep-alive"
+                        cabecera_1 = 'HTTP/1.1 200 OK\r\nDate: '+ fecha_bytes + '\r\nConnection: ' + Tipo_Conexion + '\r\nServidor:' + plataforma + '\r\nContent-type: ' + mimetype + '\r\nContent-length:' + tamaño_total + '\r\n\n{}'.format(response + '<style>' + response_css + '</style>')
+                        print(cabecera_1)
                         respuesta = cabecera_1.encode("utf-8") 
                         print(respuesta)
                         s.sendall(respuesta)
                         entradas.pop()
                         s.close()
+                        break
 
                     if cabecera.startswith('POST'):
 
@@ -181,7 +188,7 @@ while entradas != -1:
                             sql = "INSERT INTO DatosFormulario (DNI, nombre, apellidos, fecha) VALUES (%s,%s,%s,%s)"
                             val = (DNI,Nombre,Apellido,Fecha)
                             cur.execute(sql,val)
-                            Conexion.commit()
+                            Conexion_SQL.commit()
                         
                             file = open(nuevo_archivo_pedido, 'r')
                             contenido = file.read()
@@ -200,14 +207,19 @@ while entradas != -1:
                             fecha_hora = datetime.datetime.now()
                             fecha_bytes = fecha_hora.strftime("%Y-%m-%d %H:%M:%S.%f")
                             plataforma = platform.system()
-                            cabecera_1 = 'HTTP/1.1 200 OK\r\nDate: '+ fecha_bytes + '\r\nServidor:' + plataforma + '\r\nContent-type: ' + mimetype + '\r\nContent-length:' + tamaño_total + '\r\n{}'.format(response + '<style>' + response_css + '</style>')
+                            Tipo_Conexion = "keep-alive"
+                            cabecera_1 = 'HTTP/1.1 200 OK\r\nDate: '+ fecha_bytes + '\r\n Connection: ' + Tipo_Conexion + '\r\nServidor:' + plataforma + '\r\nContent-type: ' + mimetype + '\r\nContent-length:' + tamaño_total + '\r\n{}'.format(contenido + '<style>' + response_css + '</style>')
                             respuesta_final = cabecera_1
                             s.sendall(respuesta_final.encode("utf-8"))
                             entradas.pop()
                             s.close()
 
+                    break
+                        
                 except Exception as e:
                     print("error: ",e)
+
+        break
     
     
 
