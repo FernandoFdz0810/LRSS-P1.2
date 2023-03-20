@@ -6,7 +6,7 @@ body
 .Header
 {
      justify-content: center;
-     text-align: center;
+     background-color: red;
      width: auto;
      height: 100px;
      margin: 0;
@@ -15,9 +15,7 @@ body
 
 .Div-Titulo
 {
-     padding-left: 33%;
-     padding-top: 35px;
-     padding-right: 33%;
+     text-align: center;
 }
 
 .Titulo_Pagina
@@ -28,17 +26,34 @@ body
 
 }
 
+.Titulo-Formulario
+{
+     text-align: center;
+}
+
+h1
+{
+     color: rgb(15, 136, 80);
+}
+
+h2,p
+{
+     color: rgb(14, 165, 202);
+     font-weight: bold;
+}
 .Seccion-Principal
 {
      display: flex;
      justify-content: center;
+     height: 630px;
+     background-image: url(https://i.postimg.cc/Vvrm8ZBZ/netzwerk-t.jpg);
 }
 
 
 .Div-Formulario
 {
      padding-top: 50px;
-     padding-right: 15%;
+     padding-right: 7.5%;
      padding-left: 15%;
 }
 
@@ -50,10 +65,23 @@ body
      margin:10px
 }
 
+input 
+{
+     border-radius: 5px;
+     margin-bottom: 10px;
+     width: 200px;
+}
+
 .Div-Imagen
 {
-     padding-left: 15%;
-     padding-right: 15%;
+     padding-right: 2%;
+     padding-top: 2.5%;
+}
+
+#Imagen
+{
+     width: 750px;
+     height: 550px;
 }
 
 #inventado
