@@ -21,11 +21,11 @@ if sys.argv[1] == "No-Persistente":
     Keep_Alive = " "
 
 
-Conexion_SQL = pymysql.connect(host='localhost', user='fernando', passwd='Fernando0810_', db='LRSS2')
+Conexion_SQL = pymysql.connect(host='localhost', user='ismael', passwd='ismael', db='LRSS2')
 cur = Conexion_SQL.cursor()
 
 # Establecer el host y el puerto del servidor
-server_address = ('192.168.2.4', 8080)
+server_address = ('192.168.0.31', 8080)
 
 # Crear un objeto socket
 try:
@@ -47,7 +47,7 @@ socketserv.listen(5)
 
 if sys.argv[2] == "HTTPS":
     ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-    ssl_context.load_cert_chain(certfile='server.cert', keyfile='server.key')
+    ssl_context.load_cert_chain(certfile='/etc/ssl/web.crt', keyfile='/etc/ssl/web.key')
     secure_socket = ssl_context.wrap_socket(socketserv, server_side=True)
 
 
